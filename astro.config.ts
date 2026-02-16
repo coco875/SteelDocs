@@ -80,6 +80,10 @@ export default defineConfig({
           ],
         },
         {
+          label: "World generation",
+          autogenerate: { directory: "guides/world-generation" },
+        },
+        {
           label: "Reference",
           translations: {
             es: "Referencias",
