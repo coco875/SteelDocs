@@ -1059,8 +1059,10 @@
       ]
     },
     "CakeBlock": {
-      "implemented": false,
-      "todos": [],
+      "implemented": true,
+      "todos": [
+        ""
+      ],
       "entries": [
         "cake"
       ]
@@ -2400,8 +2402,11 @@
       ]
     },
     "CandleCakeBlock": {
-      "implemented": false,
-      "todos": [],
+      "implemented": true,
+      "todos": [
+        "",
+        "particles!"
+      ],
       "entries": [
         "candle_cake",
         "white_candle_cake",
@@ -4184,10 +4189,7 @@
     },
     "FlintAndSteelItem": {
       "implemented": true,
-      "todos": [
-        "light campfires, candles, and candle cakes (set LIT=true) before fire placement",
-        "use BaseFireBlock.getState() equivalent to select soul fire vs regular fire"
-      ],
+      "todos": [],
       "entries": [
         "flint_and_steel"
       ]
@@ -4604,7 +4606,7 @@
       ]
     },
     "FireChargeItem": {
-      "implemented": false,
+      "implemented": true,
       "todos": [],
       "entries": [
         "fire_charge"
