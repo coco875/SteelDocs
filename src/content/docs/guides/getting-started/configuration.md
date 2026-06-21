@@ -17,6 +17,10 @@ On first run, Steel creates `config/config.toml` with default values. You can fi
 server_port = 25565
 # Maximum number of players allowed on the server
 max_players = 20
+# Maximum threads limit for thread pools (Tokio runtimes and Rayon pools). 0 or omitted for default/auto.
+# max_threads = 4
+# Remove limit of view_distance of vanilla (which is limited to 32 chunks)
+disable_view_limit = false
 # Maximum view distance in chunks
 view_distance = 10
 # Maximum simulation distance in chunks
@@ -47,8 +51,8 @@ Steel validates your configuration on startup:
 | Setting                 | Constraint                                           |
 | ----------------------- | ---------------------------------------------------- |
 | `server_port`           | 1-65000                                              |
-| `view_distance`         | 1-32                                                 |
-| `simulation_distance`   | 1-32, must be ≤ `view_distance`                      |
+| `view_distance`         | 1-32 or 1-127 if disable_view_limit are enable       |
+| `simulation_distance`   | 1-127, must be ≤ `view_distance`                     |
 | `compression.threshold` | ≥ 256                                                |
 | `compression.level`     | 0-9                                                  |
 | `enforce_secure_chat`   | Requires `online_mode` and `encryption` to be `true` |

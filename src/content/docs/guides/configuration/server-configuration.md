@@ -11,20 +11,29 @@ World settings are documented in [World Configuration](../world-configuration).
 
 ## Basic Settings
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `server.server_port` | u16 | `25565` | The port the server listens on |
-| `server.max_players` | u32 | `20` | Maximum players allowed simultaneously |
-| `server.view_distance` | u8 | `10` | Maximum view distance in chunks (1-32) |
-| `server.simulation_distance` | u8 | `10` | Maximum simulation distance in chunks |
-| `server.motd` | String | `"A Steel Server"` | Message displayed in server list |
+| Option                       | Type   | Default            | Description                                                              |
+| ---------------------------- | ------ | ------------------ | ------------------------------------------------------------------------ |
+| `server.server_port`         | u16    | `25565`            | The port the server listens on                                           |
+| `server.max_players`         | u32    | `20`               | Maximum players allowed simultaneously                                   |
+| `server.disable_view_limit`  | bool   | false              | Remove limit of view_distance of vanilla (which is limited to 32 chunks) |
+| `server.view_distance`       | u8     | `10`               | Maximum view distance in chunks (1-32)                                   |
+| `server.simulation_distance` | u8     | `10`               | Maximum simulation distance in chunks                                    |
+| `server.motd`                | String | `"A Steel Server"` | Message displayed in server list                                         |
+
+## Threads Settings
+
+| Option               | Type  | Default | Description                                                                                             |
+| -------------------- | ----- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `server.max_threads` | usize | 0       | Maximum threads limit for thread pools (Tokio runtimes and Rayon pools). 0 or omitted for default/auto. |
+
+Only useful if you want to try to balence manually. (ex: avoid to impact other processus that are running on the same machine)
 
 ## Security Settings
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `server.online_mode` | bool | `true` | Use Mojang authentication for player verification |
-| `server.encryption` | bool | `true` | Enable encryption for client-server communication |
+| Option                       | Type | Default | Description                                               |
+| ---------------------------- | ---- | ------- | --------------------------------------------------------- |
+| `server.online_mode`         | bool | `true`  | Use Mojang authentication for player verification         |
+| `server.encryption`          | bool | `true`  | Enable encryption for client-server communication         |
 | `server.enforce_secure_chat` | bool | `false` | Enforce secure chat (requires online_mode and encryption) |
 
 :::caution
@@ -37,38 +46,38 @@ For debugging and bots it's recommended to disable encryption (only for testing!
 
 ## Favicon Settings
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `server.use_favicon` | bool | `true` | Whether to use a custom favicon |
-| `server.favicon` | String | `"config/favicon.png"` | Path to favicon file (64x64 PNG) |
+| Option               | Type   | Default                | Description                      |
+| -------------------- | ------ | ---------------------- | -------------------------------- |
+| `server.use_favicon` | bool   | `true`                 | Whether to use a custom favicon  |
+| `server.favicon`     | String | `"config/favicon.png"` | Path to favicon file (64x64 PNG) |
 
 ## Compression Settings
 
 Network compression reduces bandwidth usage at the cost of CPU.
 
-| Option | Type | Default | Valid Range | Description |
-|--------|------|---------|-------------|-------------|
-| `server.compression.threshold` | u32 | `256` | >=256 | Packet size threshold for compression |
-| `server.compression.level` | i32 | `4` | 1-9 | Compression level (1=fast, 9=best) |
+| Option                         | Type | Default | Valid Range | Description                           |
+| ------------------------------ | ---- | ------- | ----------- | ------------------------------------- |
+| `server.compression.threshold` | u32  | `256`   | >=256       | Packet size threshold for compression |
+| `server.compression.level`     | i32  | `4`     | 1-9         | Compression level (1=fast, 9=best)    |
 
 ## Server Links
 
 Server links are displayed in the multiplayer menu.
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `server.server_links.enable` | bool | `true` | Enable server links feature |
-| `server.server_links.links` | Array | 4 links | List of links to display |
+| Option                       | Type  | Default | Description                 |
+| ---------------------------- | ----- | ------- | --------------------------- |
+| `server.server_links.enable` | bool  | `true`  | Enable server links feature |
+| `server.server_links.links`  | Array | 4 links | List of links to display    |
 
 See [Server Links Guide](../server-links) for detailed configuration.
 
 ## Logging Settings
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `log.time` | String | `"uptime"` | Time format: `none`, `date`, or `uptime` |
-| `log.module_path` | bool | `false` | Whether the module path should be displayed |
-| `log.extra` | bool | `false` | Whether extra log data should be displayed |
+| Option            | Type   | Default    | Description                                 |
+| ----------------- | ------ | ---------- | ------------------------------------------- |
+| `log.time`        | String | `"uptime"` | Time format: `none`, `date`, or `uptime`    |
+| `log.module_path` | bool   | `false`    | Whether the module path should be displayed |
+| `log.extra`       | bool   | `false`    | Whether extra log data should be displayed  |
 
 ## Example Configuration
 
