@@ -11,14 +11,14 @@ World settings are documented in [World Configuration](../world-configuration).
 
 ## Basic Settings
 
-| Option                       | Type   | Default            | Description                                                              |
-| ---------------------------- | ------ | ------------------ | ------------------------------------------------------------------------ |
-| `server.server_port`         | u16    | `25565`            | The port the server listens on                                           |
-| `server.max_players`         | u32    | `20`               | Maximum players allowed simultaneously                                   |
-| `server.disable_view_limit`  | bool   | false              | Remove limit of view_distance of vanilla (which is limited to 32 chunks) |
-| `server.view_distance`       | u8     | `10`               | Maximum view distance in chunks (1-32)                                   |
-| `server.simulation_distance` | u8     | `10`               | Maximum simulation distance in chunks                                    |
-| `server.motd`                | String | `"A Steel Server"` | Message displayed in server list                                         |
+| Option                                | Type   | Default            | Description                                                  |
+| ------------------------------------- | ------ | ------------------ | ------------------------------------------------------------ |
+| `server.server_port`                  | u16    | `25565`            | The port the server listens on                               |
+| `server.max_players`                  | u32    | `20`               | Maximum players allowed simultaneously                       |
+| `server.allow_extended_view_distance` | bool   | false              | Allow view_distance above vanilla's 32-chunk cap, up to 127. |
+| `server.view_distance`                | u8     | `10`               | Maximum view distance in chunks (1-32)                       |
+| `server.simulation_distance`          | u8     | `10`               | Maximum simulation distance in chunks                        |
+| `server.motd`                         | String | `"A Steel Server"` | Message displayed in server list                             |
 
 :::note
 If you go beyond 32 of render distance, client would need mod that allow to go beyond 32 as well like bobby or c2me or any other. But it's not necessary.
@@ -26,9 +26,13 @@ If you go beyond 32 of render distance, client would need mod that allow to go b
 
 ## Threads Settings
 
-| Option               | Type  | Default | Description                                                                                             |
-| -------------------- | ----- | ------- | ------------------------------------------------------------------------------------------------------- |
-| `server.max_threads` | usize | 0       | Maximum threads limit for thread pools (Tokio runtimes and Rayon pools). 0 or omitted for default/auto. |
+Optional worker counts for server thread pools. 0 or omitted uses each pool's automatic default.
+
+| Option                            | Type  | Default | Description                                                                                             |
+| --------------------------------- | ----- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `server.threads.main_runtime`     | usize | 0       | Maximum threads limit for thread pools (Tokio runtimes and Rayon pools). 0 or omitted for default/auto. |
+| `server.threads.chunk_runtime`    | usize | 0       | Worker threads for the chunk Tokio runtime.                                                             |
+| `server.threads.chunk_generation` | usize | 0       | Worker threads for the Rayon chunk generation pool.                                                     |
 
 Only useful if you want to try to balence manually. (ex: avoid to impact other processus that are running on the same machine)
 
@@ -100,6 +104,11 @@ use_favicon = true
 favicon = "config/favicon.png"
 enforce_secure_chat = false
 
+[server.threads]
+main_runtime = 0
+chunk_runtime = 0
+chunk_generation = 0
+
 [server.compression]
 threshold = 256
 level = 4
@@ -122,7 +131,7 @@ extra = false
 The server validates configuration on startup:
 
 - unknown fields are rejected
-- `server.view_distance` must be between 1 and 32
+- `server.view_distance` must be between 1 and 32, 1 and 127 when allow_extended_view_distance is true
 - `server.simulation_distance` must be less than or equal to `server.view_distance`
 - `server.compression.threshold` must be at least 256
 - `server.compression.level` must be between 1 and 9

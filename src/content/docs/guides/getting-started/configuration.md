@@ -17,11 +17,9 @@ On first run, Steel creates `config/config.toml` with default values. You can fi
 server_port = 25565
 # Maximum number of players allowed on the server
 max_players = 20
-# Maximum threads limit for thread pools (Tokio runtimes and Rayon pools). 0 or omitted for default/auto.
-# max_threads = 4
-# Remove limit of view_distance of vanilla (which is limited to 32 chunks)
-disable_view_limit = false
-# Maximum view distance in chunks
+# Allow view_distance above vanilla's 32-chunk cap, up to 127.
+allow_extended_view_distance = false
+# Maximum view distance in chunks. Normally 1-32; 1-127 when allow_extended_view_distance is true.
 view_distance = 10
 # Maximum simulation distance in chunks
 simulation_distance = 10
@@ -38,6 +36,15 @@ favicon = "config/favicon.png"
 # Whether to enforce secure chat
 enforce_secure_chat = false
 
+# Optional worker counts for server thread pools. 0 or omitted uses each pool's automatic default.
+[server.threads]
+# Worker threads for the primary Tokio runtime.
+main_runtime = 0
+# Worker threads for the chunk Tokio runtime.
+chunk_runtime = 0
+# Worker threads for the Rayon chunk generation pool.
+chunk_generation = 0
+
 # Compression settings
 [server.compression]
 threshold = 256
@@ -48,14 +55,14 @@ level = 4
 
 Steel validates your configuration on startup:
 
-| Setting                 | Constraint                                           |
-| ----------------------- | ---------------------------------------------------- |
-| `server_port`           | 1-65000                                              |
-| `view_distance`         | 1-32 or 1-127 if disable_view_limit are enable       |
-| `simulation_distance`   | 1-127, must be ≤ `view_distance`                     |
-| `compression.threshold` | ≥ 256                                                |
-| `compression.level`     | 0-9                                                  |
-| `enforce_secure_chat`   | Requires `online_mode` and `encryption` to be `true` |
+| Setting                 | Constraint                                               |
+| ----------------------- | -------------------------------------------------------- |
+| `server_port`           | 1-65000                                                  |
+| `view_distance`         | 1-32 or 1-127 if allow_extended_view_distance are enable |
+| `simulation_distance`   | 1-127, must be ≤ `view_distance`                         |
+| `compression.threshold` | ≥ 256                                                    |
+| `compression.level`     | 0-9                                                      |
+| `enforce_secure_chat`   | Requires `online_mode` and `encryption` to be `true`     |
 
 If validation fails, the server will exit with an error message.
 
